@@ -43,7 +43,9 @@ LABEL_NAMES   = {0: "Normal", 1: "Warning", 2: "Alert"}
 # ── Flask API ────────────────────────────────────────────────
 FLASK_HOST = "0.0.0.0"
 FLASK_PORT = 5000
-FLASK_DEBUG = True
+# Debug mode is OFF by default. Set to True only for local development.
+# Never enable debug mode in production – it exposes an interactive debugger.
+FLASK_DEBUG = os.environ.get("FLASK_DEBUG", "false").lower() == "true"
 
 # ── Mobile Notifications ────────────────────────────────────
 # Replace with your Firebase Cloud Messaging (FCM) Server Key

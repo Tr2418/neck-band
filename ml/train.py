@@ -28,8 +28,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 
-# Allow imports from project root
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from config import (
     EMG_WARNING_THRESHOLD, EMG_ALERT_THRESHOLD,
     PITCH_WARNING_THRESHOLD, PITCH_ALERT_THRESHOLD,

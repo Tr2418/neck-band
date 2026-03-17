@@ -17,7 +17,6 @@ import config
 import numpy as np
 import joblib
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from config import LABEL_NAMES
 
 # Module-level cache so we load the files only once
