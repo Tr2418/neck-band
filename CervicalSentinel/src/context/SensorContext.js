@@ -7,6 +7,11 @@ import {
   shouldSendAlert,
   generateWeeklyData,
 } from '../utils/sensorSimulator';
+import {
+  loadAlerts,
+  saveAlerts,
+  saveTodaySession,
+} from '../utils/storage';
 
 const SensorContext = createContext(null);
 
@@ -25,7 +30,7 @@ export function SensorProvider({ children }) {
   const [emgHistory, setEmgHistory] = useState(Array(20).fill(0));
   const [neckHistory, setNeckHistory] = useState(Array(20).fill(0));
 
-  // Alerts list
+  // Alerts list (loaded from storage on mount)
   const [alerts, setAlerts] = useState([]);
 
   // Weekly analytics (pre-generated)
@@ -44,6 +49,25 @@ export function SensorProvider({ children }) {
   const neckSumRef = useRef(0);
   const readingCountRef = useRef(0);
   const alertsCountRef = useRef(0);
+  const mountedRef = useRef(true);
+
+  // Load persisted alerts on mount
+  useEffect(() => {
+    loadAlerts().then((saved) => {
+      if (mountedRef.current && saved.length > 0) setAlerts(saved);
+    });
+    return () => { mountedRef.current = false; };
+  }, []);
+
+  // Persist alerts whenever they change (debounced via short timeout)
+  const saveTimeoutRef = useRef(null);
+  useEffect(() => {
+    clearTimeout(saveTimeoutRef.current);
+    saveTimeoutRef.current = setTimeout(() => {
+      if (mountedRef.current) saveAlerts(alerts);
+    }, 2000);
+    return () => clearTimeout(saveTimeoutRef.current);
+  }, [alerts]);
 
   const stopMonitoring = useCallback(() => {
     if (intervalRef.current) {
@@ -99,12 +123,12 @@ export function SensorProvider({ children }) {
             strainLabel: newStrain,
             postureLabel: newPosture,
           },
-          ...prev.slice(0, 49), // keep last 50
+          ...prev.slice(0, 49), // keep last 50 in memory
         ]);
       }
 
       // Update session stats every reading
-      setSessionStats((prev) => {
+      setSessionStats(() => {
         const count = readingCountRef.current;
         const avgEmg = Math.round(emgSumRef.current / count);
         const avgNeck = parseFloat((neckSumRef.current / count).toFixed(1));
@@ -127,6 +151,20 @@ export function SensorProvider({ children }) {
 
   const disconnectDevice = useCallback(() => {
     stopMonitoring();
+
+    // Persist today's session summary before disconnecting
+    if (readingCountRef.current > 0) {
+      const count = readingCountRef.current;
+      saveTodaySession({
+        avgEmg:       Math.round(emgSumRef.current / count),
+        alertCount:   alertsCountRef.current,
+        postureScore: Math.max(
+          0,
+          Math.min(100, Math.round(100 - (emgSumRef.current / count) / 14 - alertsCountRef.current * 2))
+        ),
+      });
+    }
+
     setIsConnected(false);
     setEmgValue(0);
     setNeckTilt(0);
@@ -141,10 +179,14 @@ export function SensorProvider({ children }) {
     alertsCountRef.current = 0;
   }, [stopMonitoring]);
 
-  const clearAlerts = useCallback(() => setAlerts([]), []);
+  const clearAlerts = useCallback(() => {
+    setAlerts([]);
+    saveAlerts([]);
+  }, []);
 
   useEffect(() => {
     return () => {
+      mountedRef.current = false;
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -6,9 +6,11 @@ import {
   ScrollView,
   TouchableOpacity,
   Switch,
+  Alert,
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { EMG_THRESHOLDS, POSTURE_THRESHOLDS } from '../utils/sensorSimulator';
+import { loadSettings, saveSettings, clearAllData } from '../utils/storage';
 
 function SectionHeader({ title }) {
   return <Text style={styles.sectionHeader}>{title}</Text>;
@@ -36,6 +38,36 @@ export default function SettingsScreen() {
   const [dailyReportEnabled, setDailyReportEnabled] = useState(true);
   const [weeklyReportEnabled, setWeeklyReportEnabled] = useState(true);
   const [autoConnect, setAutoConnect] = useState(true);
+
+  // Load persisted settings on mount
+  useEffect(() => {
+    loadSettings().then((s) => {
+      setAlertsEnabled(s.alertsEnabled);
+      setVibrationEnabled(s.vibrationEnabled);
+      setSoundEnabled(s.soundEnabled);
+      setDailyReportEnabled(s.dailyReportEnabled);
+      setWeeklyReportEnabled(s.weeklyReportEnabled);
+      setAutoConnect(s.autoConnect);
+    });
+  }, []);
+
+  // Persist whenever any setting changes
+  const persist = useCallback((patch) => {
+    saveSettings({
+      alertsEnabled,
+      vibrationEnabled,
+      soundEnabled,
+      dailyReportEnabled,
+      weeklyReportEnabled,
+      autoConnect,
+      ...patch,
+    });
+  }, [alertsEnabled, vibrationEnabled, soundEnabled, dailyReportEnabled, weeklyReportEnabled, autoConnect]);
+
+  const toggle = (setter, key, current) => {
+    setter(!current);
+    persist({ [key]: !current });
+  };
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -65,7 +97,7 @@ export default function SettingsScreen() {
           right={
             <Switch
               value={alertsEnabled}
-              onValueChange={setAlertsEnabled}
+              onValueChange={() => toggle(setAlertsEnabled, 'alertsEnabled', alertsEnabled)}
               trackColor={{ true: '#1565C0' }}
             />
           }
@@ -79,7 +111,7 @@ export default function SettingsScreen() {
           right={
             <Switch
               value={vibrationEnabled}
-              onValueChange={setVibrationEnabled}
+              onValueChange={() => toggle(setVibrationEnabled, 'vibrationEnabled', vibrationEnabled)}
               trackColor={{ true: '#9C27B0' }}
             />
           }
@@ -93,7 +125,7 @@ export default function SettingsScreen() {
           right={
             <Switch
               value={soundEnabled}
-              onValueChange={setSoundEnabled}
+              onValueChange={() => toggle(setSoundEnabled, 'soundEnabled', soundEnabled)}
               trackColor={{ true: '#FF9800' }}
             />
           }
@@ -111,7 +143,7 @@ export default function SettingsScreen() {
           right={
             <Switch
               value={dailyReportEnabled}
-              onValueChange={setDailyReportEnabled}
+              onValueChange={() => toggle(setDailyReportEnabled, 'dailyReportEnabled', dailyReportEnabled)}
               trackColor={{ true: '#4CAF50' }}
             />
           }
@@ -125,7 +157,7 @@ export default function SettingsScreen() {
           right={
             <Switch
               value={weeklyReportEnabled}
-              onValueChange={setWeeklyReportEnabled}
+              onValueChange={() => toggle(setWeeklyReportEnabled, 'weeklyReportEnabled', weeklyReportEnabled)}
               trackColor={{ true: '#4CAF50' }}
             />
           }
@@ -143,7 +175,7 @@ export default function SettingsScreen() {
           right={
             <Switch
               value={autoConnect}
-              onValueChange={setAutoConnect}
+              onValueChange={() => toggle(setAutoConnect, 'autoConnect', autoConnect)}
               trackColor={{ true: '#1565C0' }}
             />
           }
@@ -209,6 +241,32 @@ export default function SettingsScreen() {
         CervicalSentinel – AI-Powered Neck Muscle & Posture Monitoring{'\n'}
         Helping prevent chronic neck pain through early detection.
       </Text>
+
+      {/* Data Management */}
+      <TouchableOpacity
+        style={styles.clearDataBtn}
+        onPress={() => {
+          Alert.alert(
+            'Clear All Saved Data',
+            'This will permanently delete your alert history and session records. Settings will be preserved. This cannot be undone.',
+            [
+              { text: 'Cancel', style: 'cancel' },
+              {
+                text: 'Clear',
+                style: 'destructive',
+                onPress: () => {
+                  clearAllData()
+                    .then(() => Alert.alert('Done', 'Alert history and session data have been cleared.'))
+                    .catch(() => Alert.alert('Error', 'Could not clear data. Please try again.'));
+                },
+              },
+            ]
+          );
+        }}
+      >
+        <Ionicons name="trash-outline" size={18} color="#F44336" />
+        <Text style={styles.clearDataText}>Clear All Saved Data</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -299,6 +357,24 @@ const styles = StyleSheet.create({
   aboutLabel: { fontSize: 14, color: '#607D8B' },
   aboutValue: { fontSize: 13, fontWeight: '600', color: '#0D1B2A' },
   divider: { height: StyleSheet.hairlineWidth, backgroundColor: '#F0F2F5', marginLeft: 64 },
+  clearDataBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    marginTop: 8,
+    marginBottom: 24,
+    paddingVertical: 14,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#F44336',
+    backgroundColor: '#FFF5F5',
+  },
+  clearDataText: {
+    color: '#F44336',
+    fontSize: 14,
+    fontWeight: '600',
+  },
   footer: {
     marginTop: 24,
     textAlign: 'center',

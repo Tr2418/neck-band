@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -9,10 +9,31 @@ import DashboardScreen from './src/screens/DashboardScreen';
 import AlertsScreen from './src/screens/AlertsScreen';
 import AnalyticsScreen from './src/screens/AnalyticsScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
+import OnboardingScreen from './src/screens/OnboardingScreen';
+import { isOnboardingDone } from './src/utils/storage';
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  const [onboarded, setOnboarded] = useState(null); // null = loading
+
+  useEffect(() => {
+    isOnboardingDone().then((done) => setOnboarded(done));
+  }, []);
+
+  // Splash / loading state
+  if (onboarded === null) return null;
+
+  // First-time onboarding
+  if (!onboarded) {
+    return (
+      <>
+        <StatusBar style="dark" />
+        <OnboardingScreen onDone={() => setOnboarded(true)} />
+      </>
+    );
+  }
+
   return (
     <SensorProvider>
       <NavigationContainer>

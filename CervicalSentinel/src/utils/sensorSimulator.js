@@ -48,7 +48,7 @@ export function simulateEMGReading(baseValue = 250, noiseLevel = 50) {
  */
 export function simulatePostureAngle(baseAngle = 10, drift = 5) {
   const noise = (Math.random() - 0.5) * 2 * drift;
-  return Math.max(-30, Math.min(60, parseFloat((baseAngle + noise).toFixed(1))));
+  return Math.max(-30, Math.min(60, Math.round((baseAngle + noise) * 10) / 10));
 }
 
 /**
