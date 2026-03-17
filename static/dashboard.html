@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CervicalSentinel – Dashboard</title>
+  <style>
+    /* ── Reset & base ────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+
+    /* ── Header ─────────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-bottom: 1px solid #1e40af;
+    }
+    header h1 { font-size: 1.5rem; color: #60a5fa; }
+    header span { font-size: 0.85rem; color: #94a3b8; }
+    .live-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: #22c55e;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    /* ── Layout ─────────────────────────────────────────── */
+    main {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+
+    /* ── Card ───────────────────────────────────────────── */
+    .card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid #334155;
+    }
+    .card h2 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #64748b;
+      margin-bottom: 1rem;
+    }
+
+    /* ── Status badge ───────────────────────────────────── */
+    .status-badge {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.05em;
+    }
+    .status-Normal  { background: #14532d; color: #4ade80; }
+    .status-Warning { background: #78350f; color: #fbbf24; }
+    .status-Alert   { background: #7f1d1d; color: #f87171; }
+
+    /* ── Big number stat ────────────────────────────────── */
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #60a5fa;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-top: 0.3rem;
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      text-align: center;
+    }
+
+    /* ── Gauge bar ──────────────────────────────────────── */
+    .gauge-row { margin-bottom: 0.8rem; }
+    .gauge-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-bottom: 0.3rem;
+    }
+    .gauge-track {
+      height: 8px;
+      background: #334155;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .gauge-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    }
+    .gauge-fill.warning { background: linear-gradient(90deg, #d97706, #fbbf24); }
+    .gauge-fill.alert   { background: linear-gradient(90deg, #dc2626, #f87171); }
+
+    /* ── Angle display ──────────────────────────────────── */
+    .angle-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #60a5fa;
+    }
+    .angle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    /* ── Alert feed ─────────────────────────────────────── */
+    .alert-list { list-style: none; max-height: 260px; overflow-y: auto; }
+    .alert-list li {
+      padding: 0.6rem 0.8rem;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      font-size: 0.82rem;
+      border-left: 3px solid transparent;
+    }
+    .alert-list li.Warning {
+      background: #1c1009;
+      border-color: #fbbf24;
+      color: #fde68a;
+    }
+    .alert-list li.Alert {
+      background: #1c0909;
+      border-color: #f87171;
+      color: #fecaca;
+    }
+    .alert-time { font-size: 0.7rem; opacity: 0.6; }
+
+    /* ── Simulate button ────────────────────────────────── */
+    .btn {
+      display: inline-block;
+      padding: 0.6rem 1.4rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn-primary { background: #2563eb; color: #fff; }
+    .btn-warning { background: #d97706; color: #fff; }
+    .btn-alert   { background: #dc2626; color: #fff; }
+    .btn-group   { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.8rem; }
+
+    /* ── Footer ─────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 1rem;
+      color: #475569;
+      font-size: 0.78rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="live-dot"></div>
+  <h1>CervicalSentinel</h1>
+  <span>AI-Powered Neck Muscle &amp; Posture Monitoring</span>
+</header>
+
+<main>
+
+  <!-- ── Current Status ─────────────────────────────────── -->
+  <div class="card" id="status-card">
+    <h2>Current Status</h2>
+    <div id="current-status" class="status-badge status-Normal">Normal</div>
+    <p style="margin-top:1rem; font-size:0.82rem; color:#94a3b8;">
+      ML Prediction: <span id="ml-label" style="color:#60a5fa;">—</span>
+      (<span id="ml-confidence">—</span>)
+    </p>
+    <p style="margin-top:0.4rem; font-size:0.82rem; color:#94a3b8;">
+      Last updated: <span id="last-updated">—</span>
+    </p>
+  </div>
+
+  <!-- ── Today's Summary ───────────────────────────────── -->
+  <div class="card">
+    <h2>Today's Summary</h2>
+    <div class="stat-grid">
+      <div>
+        <div class="stat-value" id="count-normal">—</div>
+        <div class="stat-label" style="color:#4ade80;">Normal</div>
+      </div>
+      <div>
+        <div class="stat-value" id="count-warning">—</div>
+        <div class="stat-label" style="color:#fbbf24;">Warning</div>
+      </div>
+      <div>
+        <div class="stat-value" id="count-alert">—</div>
+        <div class="stat-label" style="color:#f87171;">Alert</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── EMG Muscle Activity ───────────────────────────── -->
+  <div class="card">
+    <h2>EMG Muscle Activity</h2>
+
+    <div class="gauge-row">
+      <div class="gauge-label">
+        <span>Upper Trapezius</span>
+        <span id="emg-trap-val">0 %</span>
+      </div>
+      <div class="gauge-track">
+        <div class="gauge-fill" id="emg-trap" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="gauge-row">
+      <div class="gauge-label">
+        <span>SCM</span>
+        <span id="emg-scm-val">0 %</span>
+      </div>
+      <div class="gauge-track">
+        <div class="gauge-fill" id="emg-scm" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="gauge-row">
+      <div class="gauge-label">
+        <span>Levator Scapulae</span>
+        <span id="emg-lev-val">0 %</span>
+      </div>
+      <div class="gauge-track">
+        <div class="gauge-fill" id="emg-lev" style="width:0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Posture Angles ─────────────────────────────────── -->
+  <div class="card">
+    <h2>Posture Angles (MPU6050)</h2>
+    <div class="angle-grid">
+      <div>
+        <div class="stat-label">Pitch (forward tilt)</div>
+        <div class="angle-value" id="pitch-val">—°</div>
+        <div class="gauge-track" style="margin-top:0.5rem">
+          <div class="gauge-fill" id="pitch-gauge" style="width:0%"></div>
+        </div>
+      </div>
+      <div>
+        <div class="stat-label">Roll (side tilt)</div>
+        <div class="angle-value" id="roll-val">—°</div>
+        <div class="gauge-track" style="margin-top:0.5rem">
+          <div class="gauge-fill" id="roll-gauge" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Alert Feed ────────────────────────────────────── -->
+  <div class="card" style="grid-column: span 2">
+    <h2>Recent Alerts</h2>
+    <ul class="alert-list" id="alert-list">
+      <li style="color:#475569;">No alerts yet.</li>
+    </ul>
+  </div>
+
+  <!-- ── Simulate ──────────────────────────────────────── -->
+  <div class="card">
+    <h2>Simulate Sensor Data</h2>
+    <p style="font-size:0.82rem; color:#94a3b8; margin-bottom:0.5rem;">
+      Send fake sensor readings to test the system.
+    </p>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="simulate('normal')">Normal</button>
+      <button class="btn btn-warning" onclick="simulate('warning')">Warning</button>
+      <button class="btn btn-alert"   onclick="simulate('alert')">Alert</button>
+      <button class="btn btn-primary" onclick="simulate('random')">Random (10)</button>
+    </div>
+    <div id="sim-status" style="margin-top:0.8rem; font-size:0.82rem; color:#94a3b8;"></div>
+  </div>
+
+</main>
+
+<footer>CervicalSentinel &copy; 2025 – Refresh every 5 s</footer>
+
+<script>
+  // ── Helpers ────────────────────────────────────────────────
+  function setGauge(barId, pct) {
+    const bar   = document.getElementById(barId);
+    const clamped = Math.min(100, Math.max(0, pct));
+    bar.style.width = clamped + "%";
+    bar.className = "gauge-fill"
+      + (clamped >= 80 ? " alert" : clamped >= 60 ? " warning" : "");
+  }
+
+  function formatTime(isoStr) {
+    if (!isoStr) return "—";
+    try { return new Date(isoStr + "Z").toLocaleTimeString(); }
+    catch { return isoStr.substring(11, 19); }
+  }
+
+  // ── Fetch latest reading ───────────────────────────────────
+  async function refreshReadings() {
+    try {
+      const res  = await fetch("/readings?limit=1");
+      const data = await res.json();
+      if (!data.length) return;
+      const r = data[0];
+
+      // Status badge
+      const badge = document.getElementById("current-status");
+      const status = r.threshold_status || r.ml_label || "Normal";
+      badge.textContent = status;
+      badge.className   = "status-badge status-" + status;
+
+      // ML info
+      document.getElementById("ml-label").textContent      = r.ml_label || "—";
+      document.getElementById("ml-confidence").textContent = "—";
+      document.getElementById("last-updated").textContent  = formatTime(r.timestamp);
+
+      // EMG gauges
+      const trapPct = Math.round((r.emg_upper_trap || 0) * 100);
+      const scmPct  = Math.round((r.emg_scm        || 0) * 100);
+      const levPct  = Math.round((r.emg_levator     || 0) * 100);
+      setGauge("emg-trap", trapPct);
+      setGauge("emg-scm",  scmPct);
+      setGauge("emg-lev",  levPct);
+      document.getElementById("emg-trap-val").textContent = trapPct + " %";
+      document.getElementById("emg-scm-val").textContent  = scmPct  + " %";
+      document.getElementById("emg-lev-val").textContent  = levPct  + " %";
+
+      // Posture
+      const pitch = (r.pitch || 0).toFixed(1);
+      const roll  = (r.roll  || 0).toFixed(1);
+      document.getElementById("pitch-val").textContent = pitch + "°";
+      document.getElementById("roll-val").textContent  = roll  + "°";
+      setGauge("pitch-gauge", Math.abs(pitch) / 50 * 100);
+      setGauge("roll-gauge",  Math.abs(roll)  / 30 * 100);
+    } catch (e) { console.error("readings error", e); }
+  }
+
+  // ── Fetch summary ──────────────────────────────────────────
+  async function refreshSummary() {
+    try {
+      const res  = await fetch("/summary");
+      const data = await res.json();
+      document.getElementById("count-normal").textContent  = data.Normal  || 0;
+      document.getElementById("count-warning").textContent = data.Warning || 0;
+      document.getElementById("count-alert").textContent   = data.Alert   || 0;
+    } catch (e) { console.error("summary error", e); }
+  }
+
+  // ── Fetch alerts ───────────────────────────────────────────
+  async function refreshAlerts() {
+    try {
+      const res  = await fetch("/alerts?limit=8");
+      const data = await res.json();
+      const list = document.getElementById("alert-list");
+      if (!data.length) {
+        list.innerHTML = '<li style="color:#475569;">No alerts yet.</li>';
+        return;
+      }
+      list.innerHTML = data.map(a => `
+        <li class="${a.severity}">
+          <span class="alert-time">${formatTime(a.timestamp)}</span>
+          &nbsp;[${a.alert_type}]&nbsp;${a.message}
+        </li>
+      `).join("");
+    } catch (e) { console.error("alerts error", e); }
+  }
+
+  // ── Simulate ───────────────────────────────────────────────
+  async function simulate(mode) {
+    const n = (mode === "random") ? 10 : 1;
+    const statusEl = document.getElementById("sim-status");
+    statusEl.textContent = "Sending …";
+    try {
+      const res  = await fetch("/simulate", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ n, mode }),
+      });
+      const data = await res.json();
+      statusEl.textContent = `✓ Sent ${data.generated} reading(s).`;
+      refreshReadings();
+      refreshAlerts();
+      refreshSummary();
+    } catch (e) {
+      statusEl.textContent = "Error: " + e.message;
+    }
+  }
+
+  // ── Auto-refresh every 5 seconds ──────────────────────────
+  function refreshAll() {
+    refreshReadings();
+    refreshAlerts();
+    refreshSummary();
+  }
+  refreshAll();
+  setInterval(refreshAll, 5000);
+</script>
+</body>
+</html>
