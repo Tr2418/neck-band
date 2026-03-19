@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeckBand Luxe — Free Luxury Wellness App</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient-glow"></div>
+    <header class="hero">
+      <nav class="nav">
+        <div class="logo">NeckBand Luxe</div>
+        <div class="nav-links">
+          <a href="#features">Features</a>
+          <a href="#experience">Experience</a>
+          <a href="#lounge">Lounge</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <button class="lux-button ghost" data-ripple>Get it free</button>
+      </nav>
+      <section class="hero-content">
+        <div class="hero-text">
+          <p class="eyebrow">All consumer features included · forever free</p>
+          <h1>Luxury wellness wrapped around your neck.</h1>
+          <p class="lead">
+            NeckBand Luxe is your all-in-one premium experience studio — crafted for beginners with guided
+            moments, immersive soundscapes, and luxe routines that feel like a personal concierge.
+          </p>
+          <div class="hero-actions">
+            <button class="lux-button primary" data-ripple>Start the free experience</button>
+            <button class="lux-button" data-ripple>Preview the rituals</button>
+          </div>
+          <div class="hero-meta">
+            <div>
+              <strong>0$</strong>
+              <span>consumer access</span>
+            </div>
+            <div>
+              <strong>24/7</strong>
+              <span>guided luxury care</span>
+            </div>
+            <div>
+              <strong>100%</strong>
+              <span>personalized modes</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-panel">
+          <div class="panel-card">
+            <h3>Today’s Aura</h3>
+            <p class="panel-highlight">Velvet Calm</p>
+            <div class="panel-stats">
+              <div>
+                <span>Energy</span>
+                <strong>72%</strong>
+              </div>
+              <div>
+                <span>Focus</span>
+                <strong>88%</strong>
+              </div>
+              <div>
+                <span>Recovery</span>
+                <strong>94%</strong>
+              </div>
+            </div>
+            <button class="lux-button primary" data-ripple>Play now</button>
+          </div>
+          <div class="panel-card glass">
+            <h3>Signature Ritual</h3>
+            <p>Moonlight Stretch · 15 min</p>
+            <button class="lux-button" data-ripple>Unlock experience</button>
+          </div>
+        </div>
+      </section>
+    </header>
+
+    <section id="features" class="section">
+      <div class="section-header">
+        <h2>Everything luxury. Everything free.</h2>
+        <p>
+          We removed paywalls so every consumer can enjoy premium wellness, smart routines, concierge-level
+          support, and personalized aesthetics.
+        </p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h3>Concierge Modes</h3>
+          <p>Curated presets for focus, rest, recovery, and luxury soundscapes.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Luxury Scheduler</h3>
+          <p>Build custom rituals and save them instantly to your daily flow.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Immersive Feedback</h3>
+          <p>Gentle haptics and calming animations keep you in the moment.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Personal Aesthetic</h3>
+          <p>Choose from luxury palettes to match your mood and vibe.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="experience" class="section accent">
+      <div class="section-header">
+        <h2>Experience Builder</h2>
+        <p>Create your own luxury sessions in seconds. It’s designed for beginners.</p>
+      </div>
+      <div class="experience-layout">
+        <form class="experience-form" id="experienceForm">
+          <label>
+            Mood
+            <select id="moodSelect">
+              <option value="Velvet Calm">Velvet Calm</option>
+              <option value="Sunrise Focus">Sunrise Focus</option>
+              <option value="Golden Energy">Golden Energy</option>
+              <option value="Cloud Nine">Cloud Nine</option>
+            </select>
+          </label>
+          <label>
+            Intensity
+            <input type="range" id="intensityRange" min="1" max="10" value="6" />
+            <span class="range-value" id="intensityValue">6</span>
+          </label>
+          <label>
+            Duration (minutes)
+            <input type="number" id="durationInput" min="5" max="60" value="15" />
+          </label>
+          <label>
+            Notes
+            <textarea id="notesInput" rows="3" placeholder="Add a personal touch..."></textarea>
+          </label>
+          <div class="form-actions">
+            <button type="submit" class="lux-button primary" data-ripple>Add to schedule</button>
+            <button type="button" class="lux-button ghost" id="clearSchedule" data-ripple>Clear schedule</button>
+          </div>
+        </form>
+
+        <div class="experience-list" aria-live="polite">
+          <div class="list-header">
+            <h3>Your Luxury Schedule</h3>
+            <span id="sessionCount">0 sessions</span>
+          </div>
+          <ul id="sessionList"></ul>
+          <p class="empty-state" id="emptyState">No sessions yet. Add your first luxury ritual.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="lounge" class="section">
+      <div class="section-header">
+        <h2>Member Lounge</h2>
+        <p>Toggle your favorite luxury modes and watch your aura meter rise.</p>
+      </div>
+      <div class="lounge-grid">
+        <div class="lounge-card">
+          <h3>Aura Meter</h3>
+          <div class="meter">
+            <div class="meter-fill" id="auraMeter" style="width: 35%"></div>
+          </div>
+          <p class="meter-label" id="auraLabel">Aura level: 35%</p>
+        </div>
+        <div class="lounge-card">
+          <h3>Luxury Modes</h3>
+          <div class="toggle-group" id="toggleGroup">
+            <button class="toggle-button" data-mode="Focus Flow">Focus Flow</button>
+            <button class="toggle-button" data-mode="Sleep Halo">Sleep Halo</button>
+            <button class="toggle-button" data-mode="Crystal Clarity">Crystal Clarity</button>
+            <button class="toggle-button" data-mode="Golden Boost">Golden Boost</button>
+          </div>
+          <p class="toggle-note">Tap to activate. Everything stays free for consumers.</p>
+        </div>
+        <div class="lounge-card">
+          <h3>Concierge Insight</h3>
+          <p class="insight" id="conciergeInsight">Select a luxury mode to receive personalized guidance.</p>
+          <button class="lux-button" id="refreshInsight" data-ripple>Refresh insight</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section accent">
+      <div class="section-header">
+        <h2>Questions? We made it easy.</h2>
+      </div>
+      <div class="faq-grid">
+        <details open>
+          <summary>Is everything really free?</summary>
+          <p>Yes. Every consumer feature in NeckBand Luxe is free. No trials, no locked menus.</p>
+        </details>
+        <details>
+          <summary>Do I need to know anything about tech?</summary>
+          <p>Nope. The app walks you through everything with guided prompts and friendly tips.</p>
+        </details>
+        <details>
+          <summary>Can I build my own rituals?</summary>
+          <p>Absolutely. Use the Experience Builder to create, save, and enjoy custom sessions.</p>
+        </details>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>
+        <strong>NeckBand Luxe</strong>
+        <p>Luxury wellness for everyone — always free.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#features">Features</a>
+        <a href="#experience">Experience</a>
+        <a href="#lounge">Lounge</a>
+        <a href="#faq">FAQ</a>
+      </div>
+    </footer>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
