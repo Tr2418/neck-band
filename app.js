@@ -17,8 +17,8 @@ const storage = {
   },
 };
 
-const sessionsKey = "luxSessions";
-const modesKey = "luxModes";
+const sessionsKey = "neckSessions";
+const modesKey = "neckModes";
 
 const sessionList = document.getElementById("sessionList");
 const sessionCount = document.getElementById("sessionCount");
@@ -35,7 +35,7 @@ const refreshInsight = document.getElementById("refreshInsight");
 
 const insights = [
   "Take a deep breath and let the velvet calm surround you.",
-  "Luxury tip: pair Golden Boost with a short walk for extra glow.",
+  "Wellness tip: pair Golden Boost with a short walk for extra glow.",
   "Crystal Clarity shines best when you reduce screen brightness.",
   "Sleep Halo mode works beautifully with a cozy blanket ritual.",
   "Focus Flow loves a tidy space and a gentle cup of tea.",

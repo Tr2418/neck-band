@@ -3,18 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NeckBand Luxe — Free Luxury Wellness App</title>
+    <title>NeckBand — Free Wellness Companion</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="ambient-glow"></div>
     <header class="hero">
       <nav class="nav">
-        <div class="logo">NeckBand Luxe</div>
+        <div class="logo">NeckBand</div>
         <div class="nav-links">
           <a href="#features">Features</a>
+          <a href="#how">How it works</a>
           <a href="#experience">Experience</a>
           <a href="#lounge">Lounge</a>
+          <a href="#device">Device</a>
+          <a href="#support">Support</a>
           <a href="#faq">FAQ</a>
         </div>
         <button class="lux-button ghost" data-ripple>Get it free</button>
@@ -22,10 +25,10 @@
       <section class="hero-content">
         <div class="hero-text">
           <p class="eyebrow">All consumer features included · forever free</p>
-          <h1>Luxury wellness wrapped around your neck.</h1>
+          <h1>Wellness wrapped around your neck.</h1>
           <p class="lead">
-            NeckBand Luxe is your all-in-one premium experience studio — crafted for beginners with guided
-            moments, immersive soundscapes, and luxe routines that feel like a personal concierge.
+            NeckBand is your all-in-one wellness companion — crafted for beginners with guided moments,
+            immersive soundscapes, and routines that feel like a personal coach.
           </p>
           <div class="hero-actions">
             <button class="lux-button primary" data-ripple>Start the free experience</button>
@@ -38,7 +41,7 @@
             </div>
             <div>
               <strong>24/7</strong>
-              <span>guided luxury care</span>
+              <span>guided care</span>
             </div>
             <div>
               <strong>100%</strong>
@@ -67,9 +70,9 @@
             <button class="lux-button primary" data-ripple>Play now</button>
           </div>
           <div class="panel-card glass">
-            <h3>Signature Ritual</h3>
+            <h3>Signature Session</h3>
             <p>Moonlight Stretch · 15 min</p>
-            <button class="lux-button" data-ripple>Unlock experience</button>
+            <button class="lux-button" data-ripple>Start session</button>
           </div>
         </div>
       </section>
@@ -77,28 +80,53 @@
 
     <section id="features" class="section">
       <div class="section-header">
-        <h2>Everything luxury. Everything free.</h2>
+        <h2>Everything you need. Everything free.</h2>
         <p>
-          We removed paywalls so every consumer can enjoy premium wellness, smart routines, concierge-level
-          support, and personalized aesthetics.
+          We removed paywalls so every consumer can enjoy guided wellness, smart routines, supportive
+          coaching, and personalized aesthetics.
         </p>
       </div>
       <div class="feature-grid">
         <article class="feature-card">
-          <h3>Concierge Modes</h3>
-          <p>Curated presets for focus, rest, recovery, and luxury soundscapes.</p>
+          <h3>Guided Modes</h3>
+          <p>Curated presets for focus, rest, recovery, and immersive soundscapes.</p>
         </article>
         <article class="feature-card">
-          <h3>Luxury Scheduler</h3>
-          <p>Build custom rituals and save them instantly to your daily flow.</p>
+          <h3>Smart Scheduler</h3>
+          <p>Build custom routines and save them instantly to your daily flow.</p>
         </article>
         <article class="feature-card">
           <h3>Immersive Feedback</h3>
           <p>Gentle haptics and calming animations keep you in the moment.</p>
         </article>
         <article class="feature-card">
-          <h3>Personal Aesthetic</h3>
-          <p>Choose from luxury palettes to match your mood and vibe.</p>
+          <h3>Personal Themes</h3>
+          <p>Choose from curated palettes to match your mood and vibe.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="how" class="section accent">
+      <div class="section-header">
+        <h2>How it works</h2>
+        <p>From unboxing to feeling better in minutes — no tech knowledge needed.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h3>Connect</h3>
+          <p>Pair your NeckBand in seconds and see your status light up.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Choose a mode</h3>
+          <p>Select focus, rest, recovery, or build your own session.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Enjoy the session</h3>
+          <p>Guided cues, soft haptics, and calming audio keep you grounded.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Save your flow</h3>
+          <p>Store favorites and schedule them for daily wellness rituals.</p>
         </article>
       </div>
     </section>
@@ -106,7 +134,7 @@
     <section id="experience" class="section accent">
       <div class="section-header">
         <h2>Experience Builder</h2>
-        <p>Create your own luxury sessions in seconds. It’s designed for beginners.</p>
+        <p>Create your own sessions in seconds. It’s designed for beginners.</p>
       </div>
       <div class="experience-layout">
         <form class="experience-form" id="experienceForm">
@@ -140,19 +168,19 @@
 
         <div class="experience-list" aria-live="polite">
           <div class="list-header">
-            <h3>Your Luxury Schedule</h3>
+            <h3>Your Schedule</h3>
             <span id="sessionCount">0 sessions</span>
           </div>
           <ul id="sessionList"></ul>
-          <p class="empty-state" id="emptyState">No sessions yet. Add your first luxury ritual.</p>
+          <p class="empty-state" id="emptyState">No sessions yet. Add your first session.</p>
         </div>
       </div>
     </section>
 
     <section id="lounge" class="section">
       <div class="section-header">
-        <h2>Member Lounge</h2>
-        <p>Toggle your favorite luxury modes and watch your aura meter rise.</p>
+        <h2>Member Studio</h2>
+        <p>Toggle your favorite modes and watch your aura meter rise.</p>
       </div>
       <div class="lounge-grid">
         <div class="lounge-card">
@@ -163,7 +191,7 @@
           <p class="meter-label" id="auraLabel">Aura level: 35%</p>
         </div>
         <div class="lounge-card">
-          <h3>Luxury Modes</h3>
+          <h3>Signature Modes</h3>
           <div class="toggle-group" id="toggleGroup">
             <button class="toggle-button" data-mode="Focus Flow">Focus Flow</button>
             <button class="toggle-button" data-mode="Sleep Halo">Sleep Halo</button>
@@ -173,9 +201,56 @@
           <p class="toggle-note">Tap to activate. Everything stays free for consumers.</p>
         </div>
         <div class="lounge-card">
-          <h3>Concierge Insight</h3>
-          <p class="insight" id="conciergeInsight">Select a luxury mode to receive personalized guidance.</p>
+          <h3>Guided Insight</h3>
+          <p class="insight" id="conciergeInsight">Select a mode to receive personalized guidance.</p>
           <button class="lux-button" id="refreshInsight" data-ripple>Refresh insight</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="device" class="section">
+      <div class="section-header">
+        <h2>Device comfort & care</h2>
+        <p>Everything you need to keep your NeckBand comfortable, safe, and ready daily.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h3>Comfort fit</h3>
+          <p>Ergonomic design with adjustable curves to match different neck sizes.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Battery & charging</h3>
+          <p>Fast-charge reminders and a simple LED guide keep you powered.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Safety first</h3>
+          <p>Session timers and gentle intensity controls keep experiences balanced.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Care tips</h3>
+          <p>Wipe-clean materials and weekly care prompts help you stay fresh.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="support" class="section accent">
+      <div class="section-header">
+        <h2>Support & community</h2>
+        <p>Beginner-friendly help, guided onboarding, and a community that cheers you on.</p>
+      </div>
+      <div class="support-grid">
+        <div class="support-card">
+          <h3>Getting started</h3>
+          <ul>
+            <li>Quick pairing guide and daily check-ins.</li>
+            <li>Beginner routines for morning, focus, and sleep.</li>
+            <li>Tips that explain every setting in plain language.</li>
+          </ul>
+        </div>
+        <div class="support-card highlight">
+          <h3>Need help now?</h3>
+          <p>We’re here with friendly answers, status updates, and guided fixes.</p>
+          <button class="lux-button primary" data-ripple>Contact support</button>
         </div>
       </div>
     </section>
@@ -187,7 +262,7 @@
       <div class="faq-grid">
         <details open>
           <summary>Is everything really free?</summary>
-          <p>Yes. Every consumer feature in NeckBand Luxe is free. No trials, no locked menus.</p>
+          <p>Yes. Every consumer feature in NeckBand is free. No trials, no locked menus.</p>
         </details>
         <details>
           <summary>Do I need to know anything about tech?</summary>
@@ -202,13 +277,16 @@
 
     <footer class="footer">
       <div>
-        <strong>NeckBand Luxe</strong>
-        <p>Luxury wellness for everyone — always free.</p>
+        <strong>NeckBand</strong>
+        <p>Wellness for everyone — always free.</p>
       </div>
       <div class="footer-links">
         <a href="#features">Features</a>
+        <a href="#how">How it works</a>
         <a href="#experience">Experience</a>
         <a href="#lounge">Lounge</a>
+        <a href="#device">Device</a>
+        <a href="#support">Support</a>
         <a href="#faq">FAQ</a>
       </div>
     </footer>

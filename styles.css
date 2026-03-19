@@ -387,6 +387,31 @@ a {
   gap: 16px;
 }
 
+.support-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.support-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px;
+}
+
+.support-card.highlight {
+  background: linear-gradient(120deg, rgba(168, 85, 247, 0.3), rgba(56, 189, 248, 0.25));
+  border-color: transparent;
+}
+
+.support-card ul {
+  margin: 12px 0 0;
+  padding-left: 20px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
 details {
   background: var(--card);
   border: 1px solid var(--border);
