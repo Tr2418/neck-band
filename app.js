@@ -4,6 +4,7 @@ const storage = {
       const raw = localStorage.getItem(key);
       return raw ? JSON.parse(raw) : fallback;
     } catch (error) {
+      console.warn("Unable to read saved data.", error);
       return fallback;
     }
   },
@@ -11,7 +12,7 @@ const storage = {
     try {
       localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
-      // Ignore write errors for private mode.
+      console.warn("Unable to save data locally.", error);
     }
   },
 };
