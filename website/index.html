@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CervicalSentinel – AI Neck &amp; Posture Monitor</title>
+  <meta name="description" content="CervicalSentinel is an AI-powered wearable system that monitors neck muscle activity and posture in real-time using EMG sensors and MPU6050." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="../CervicalSentinel/assets/favicon.png" />
+</head>
+<body>
+
+  <!-- ═══════════════════════ NAVIGATION ═══════════════════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <span class="brand-dot"></span>
+      CervicalSentinel
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#demo">Live Demo</a></li>
+      <li><a href="#hardware">Hardware</a></li>
+      <li><a href="#get-started">Get Started</a></li>
+    </ul>
+    <a href="https://github.com/Tr2418/neck-band" class="btn btn-outline nav-cta" target="_blank" rel="noopener">
+      GitHub ↗
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ═══════════════════════ HERO ═══════════════════════ -->
+  <section class="hero" id="home">
+    <div class="hero-bg-circles">
+      <div class="circle c1"></div>
+      <div class="circle c2"></div>
+      <div class="circle c3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">🧠 AI-Powered Wearable</div>
+      <h1 class="hero-title">
+        Stop Neck Pain <br/>
+        <span class="gradient-text">Before It Starts</span>
+      </h1>
+      <p class="hero-subtitle">
+        CervicalSentinel combines EMG muscle sensors and AI to monitor
+        your neck posture in real-time — sending instant alerts before
+        chronic damage occurs.
+      </p>
+      <div class="hero-actions">
+        <a href="#demo" class="btn btn-primary">Try Live Demo</a>
+        <a href="#get-started" class="btn btn-outline">Get Started →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number">500 Hz</span>
+          <span class="stat-label">EMG Sampling</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-number">AI</span>
+          <span class="stat-label">On-Device Classification</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-number">BLE</span>
+          <span class="stat-label">Wireless Connection</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="phone-mockup">
+        <div class="phone-screen">
+          <div class="app-screen" id="heroAppScreen">
+            <div class="app-header">
+              <span class="app-title-text">CervicalSentinel</span>
+              <div class="status-badge connected" id="heroStatus">● Connected</div>
+            </div>
+            <div class="live-cards">
+              <div class="live-card strain-card">
+                <div class="card-label">Muscle Strain</div>
+                <div class="card-value" id="heroStrain">Normal</div>
+              </div>
+              <div class="live-card posture-card">
+                <div class="card-label">Posture</div>
+                <div class="card-value" id="heroPosture">Good</div>
+              </div>
+            </div>
+            <div class="emg-bar-wrap">
+              <div class="emg-bar-label">EMG Signal</div>
+              <div class="emg-bar-track">
+                <div class="emg-bar-fill" id="heroEmgBar"></div>
+              </div>
+              <div class="emg-bar-value" id="heroEmgVal">245</div>
+            </div>
+            <div class="mini-chart" id="heroChart">
+              <!-- bars injected by JS -->
+            </div>
+            <div class="score-row">
+              <div class="score-box">
+                <span class="score-icon">🎯</span>
+                <span class="score-num" id="heroScore">94%</span>
+                <span class="score-lbl">Posture Score</span>
+              </div>
+              <div class="score-box">
+                <span class="score-icon">⚠️</span>
+                <span class="score-num" id="heroAlerts">2</span>
+                <span class="score-lbl">Alerts Today</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ FEATURES ═══════════════════════ -->
+  <section class="section features-section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Features</div>
+        <h2>Everything You Need to Protect Your Neck</h2>
+        <p>Four integrated screens give you complete visibility into your posture and muscle health.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card" data-aos="fade-up">
+          <div class="feature-icon bg-blue">📊</div>
+          <h3>Dashboard</h3>
+          <p>Live EMG readings, posture angles, AI classification, sparkline charts, and session statistics — all at a glance.</p>
+        </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="feature-icon bg-red">🔔</div>
+          <h3>Real-Time Alerts</h3>
+          <p>Instant push notifications the moment strain or poor posture is detected. Never ignore your neck again.</p>
+        </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="feature-icon bg-green">📈</div>
+          <h3>Analytics</h3>
+          <p>Hourly daily charts and 7-day weekly summaries for EMG levels, alert count, and posture score trends.</p>
+        </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="feature-icon bg-purple">⚙️</div>
+          <h3>Settings</h3>
+          <p>Personalise alert types, thresholds, and reporting preferences. Data persists across app restarts.</p>
+        </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+          <div class="feature-icon bg-orange">🤖</div>
+          <h3>On-Device AI</h3>
+          <p>Decision-tree classifier runs directly on the ESP32 microcontroller — no cloud required, no latency.</p>
+        </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
+          <div class="feature-icon bg-teal">📡</div>
+          <h3>BLE Wireless</h3>
+          <p>Custom GATT BLE service streams compact JSON sensor packets at 1 Hz over Bluetooth Low Energy.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ HOW IT WORKS ═══════════════════════ -->
+  <section class="section how-section" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">System</div>
+        <h2>How CervicalSentinel Works</h2>
+        <p>Five steps from sensor to alert — all happening in real-time.</p>
+      </div>
+      <div class="steps-timeline">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Sense</h3>
+            <p>MyoWare EMG electrodes placed on the upper trapezius muscle capture electrical signals at 500 Hz. An MPU6050 IMU simultaneously measures neck tilt and shoulder angles.</p>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Process</h3>
+            <p>The ESP32 runs a windowed RMS filter on raw EMG data (50-sample window) and a complementary filter (α=0.96) on IMU data to remove noise and drift.</p>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Classify</h3>
+            <p>An on-device AI decision tree classifies muscle strain into 4 levels (Normal → High) and posture into 4 classes (Good → Combined). Alert level 0–2 is assigned.</p>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Transmit</h3>
+            <p>A compact JSON packet is sent once per second via BLE GATT notification to the mobile app:
+              <code>{"e":350,"n":12.5,"s":8.2,"sc":0,"pc":0,"al":0,"b":85}</code>
+            </p>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step">
+          <div class="step-number">5</div>
+          <div class="step-content">
+            <h3>Alert</h3>
+            <p>The mobile app displays live data, persists alerts and session history, and vibrates/notifies when posture correction is needed.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ LIVE DEMO ═══════════════════════ -->
+  <section class="section demo-section" id="demo">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Interactive</div>
+        <h2>Live Sensor Simulation Demo</h2>
+        <p>See the AI classification engine running in your browser — no hardware required.</p>
+      </div>
+
+      <div class="demo-layout">
+        <!-- Controls -->
+        <div class="demo-controls">
+          <h3>Simulation Controls</h3>
+          <div class="control-group">
+            <label for="emgSlider">EMG Signal Level (AU)</label>
+            <input type="range" id="emgSlider" min="0" max="1023" value="220" class="slider" />
+            <div class="slider-labels">
+              <span>0</span><span>Normal</span><span>Mild</span><span>Moderate</span><span>High</span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label for="neckSlider">Neck Tilt Angle (°)</label>
+            <input type="range" id="neckSlider" min="0" max="60" value="10" class="slider" />
+            <div class="slider-labels">
+              <span>0°</span><span>Good (15°)</span><span>Warning (30°)</span><span>60°</span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label for="shoulderSlider">Shoulder Angle (°)</label>
+            <input type="range" id="shoulderSlider" min="0" max="40" value="8" class="slider" />
+            <div class="slider-labels">
+              <span>0°</span><span>Good (10°)</span><span>Warning (20°)</span><span>40°</span>
+            </div>
+          </div>
+          <div class="preset-btns">
+            <button class="preset-btn" data-emg="220" data-neck="10" data-shoulder="7">✅ Good Posture</button>
+            <button class="preset-btn" data-emg="450" data-neck="35" data-shoulder="10">⚠️ Forward Head</button>
+            <button class="preset-btn" data-emg="700" data-neck="15" data-shoulder="25">⚠️ Rounded Shoulders</button>
+            <button class="preset-btn" data-emg="900" data-neck="38" data-shoulder="28">🚨 High Strain</button>
+          </div>
+        </div>
+
+        <!-- Results display -->
+        <div class="demo-result">
+          <div class="result-card">
+            <div class="result-header">AI Classification Result</div>
+
+            <div class="result-row">
+              <div class="result-metric">
+                <div class="metric-label">EMG Value</div>
+                <div class="metric-value" id="demoEmgVal">220</div>
+              </div>
+              <div class="result-metric">
+                <div class="metric-label">Neck Tilt</div>
+                <div class="metric-value" id="demoNeckVal">10°</div>
+              </div>
+              <div class="result-metric">
+                <div class="metric-label">Shoulder</div>
+                <div class="metric-value" id="demoShoulderVal">8°</div>
+              </div>
+            </div>
+
+            <div class="classification-badges">
+              <div class="badge-group">
+                <div class="badge-label">Muscle Strain</div>
+                <div class="class-badge" id="demoStrainBadge">Normal</div>
+              </div>
+              <div class="badge-group">
+                <div class="badge-label">Posture</div>
+                <div class="class-badge" id="demoPostureBadge">Good Posture</div>
+              </div>
+            </div>
+
+            <div class="alert-banner" id="demoAlertBanner">
+              <span id="demoAlertIcon">✅</span>
+              <span id="demoAlertText">All clear — great posture!</span>
+            </div>
+
+            <div class="ble-packet">
+              <div class="ble-label">BLE Packet (sent to mobile app)</div>
+              <code id="demoBlePacket">{"e":220,"n":10.0,"s":8.0,"sc":0,"pc":0,"al":0,"b":85}</code>
+            </div>
+          </div>
+
+          <!-- Live chart -->
+          <div class="result-chart-card">
+            <div class="chart-title">EMG Signal History (last 20 samples)</div>
+            <div class="demo-chart" id="demoChart"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ HARDWARE ═══════════════════════ -->
+  <section class="section hardware-section" id="hardware">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Hardware</div>
+        <h2>What's Inside the Band</h2>
+        <p>Three components work together to give you complete monitoring.</p>
+      </div>
+      <div class="hardware-grid">
+        <div class="hw-card">
+          <div class="hw-icon">⚡</div>
+          <h3>MyoWare 2.0 EMG</h3>
+          <div class="hw-role">Primary Sensor</div>
+          <p>Measures electrical signals from upper trapezius, SCM, and levator scapulae muscles. Detects muscle fatigue before visible posture change.</p>
+          <ul class="hw-specs">
+            <li>500 Hz sampling rate</li>
+            <li>Windowed RMS processing</li>
+            <li>Baseline drift compensation</li>
+          </ul>
+        </div>
+        <div class="hw-card hw-center">
+          <div class="hw-icon">🖥️</div>
+          <h3>ESP32</h3>
+          <div class="hw-role">Microcontroller + AI</div>
+          <p>Runs the on-device AI classifier, BLE server, hardware timers, and battery monitoring. The brain of the wearable.</p>
+          <ul class="hw-specs">
+            <li>Dual-core 240 MHz</li>
+            <li>BLE 5.0 GATT server</li>
+            <li>12-bit ADC, hardware timer</li>
+          </ul>
+        </div>
+        <div class="hw-card">
+          <div class="hw-icon">📐</div>
+          <h3>MPU6050 IMU</h3>
+          <div class="hw-role">Secondary Sensor</div>
+          <p>6-axis accelerometer + gyroscope measures neck tilt and shoulder rounding angles via complementary filter fusion.</p>
+          <ul class="hw-specs">
+            <li>50 Hz update rate</li>
+            <li>Complementary filter (α=0.96)</li>
+            <li>I²C interface, 3.3 V</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="wiring-box">
+        <h3>📌 Wiring Summary (ESP32)</h3>
+        <div class="wiring-table">
+          <div class="wire-row wire-header">
+            <span>Component</span><span>ESP32 Pin</span><span>Notes</span>
+          </div>
+          <div class="wire-row">
+            <span>MyoWare SIG</span><span>GPIO 34</span><span>ADC1_CH6 (analog input)</span>
+          </div>
+          <div class="wire-row">
+            <span>MPU6050 SDA</span><span>GPIO 21</span><span>I²C data</span>
+          </div>
+          <div class="wire-row">
+            <span>MPU6050 SCL</span><span>GPIO 22</span><span>I²C clock</span>
+          </div>
+          <div class="wire-row">
+            <span>Battery (via divider)</span><span>GPIO 35</span><span>ADC1_CH7 – 100kΩ/100kΩ divider</span>
+          </div>
+          <div class="wire-row">
+            <span>Status LED</span><span>GPIO 2</span><span>Built-in LED</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ GET STARTED ═══════════════════════ -->
+  <section class="section getstarted-section" id="get-started">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Setup Guide</div>
+        <h2>Get Started — Step by Step</h2>
+        <p>Complete instructions for Windows 11 users running VS Code. <strong>No prior experience needed.</strong></p>
+      </div>
+
+      <div class="tabs" id="setupTabs">
+        <button class="tab-btn active" data-tab="website">🌐 Open Website</button>
+        <button class="tab-btn" data-tab="app">📱 Run Mobile App</button>
+        <button class="tab-btn" data-tab="firmware">🔧 Flash Firmware</button>
+        <button class="tab-btn" data-tab="deploy">🚀 Deploy Website</button>
+      </div>
+
+      <!-- ── TAB: WEBSITE ── -->
+      <div class="tab-content active" id="tab-website">
+        <div class="steps-list">
+          <div class="gs-step">
+            <div class="gs-num">1</div>
+            <div class="gs-body">
+              <h4>Install Git for Windows</h4>
+              <p>Go to <a href="https://git-scm.com/download/win" target="_blank" rel="noopener">git-scm.com/download/win</a> and download the installer. Run it and click <em>Next</em> through all steps (defaults are fine).</p>
+            </div>
+          </div>
+          <div class="gs-step">
+            <div class="gs-num">2</div>
+            <div class="gs-body">
+              <h4>Clone the Repository</h4>
+              <p>Open <strong>VS Code</strong> → press <code>Ctrl + `</code> to open the terminal → paste this command and press <kbd>Enter</kbd>:</p>
+              <div class="code-block">
+                <pre>git clone https://github.com/Tr2418/neck-band.git</pre>
+                <button class="copy-btn" data-copy="git clone https://github.com/Tr2418/neck-band.git">Copy</button>
+              </div>
+            </div>
+          </div>
+          <div class="gs-step">
+            <div class="gs-num">3</div>
+            <div class="gs-body">
+              <h4>Open the Folder in VS Code</h4>
+              <p>In VS Code go to <strong>File → Open Folder</strong> and select the <code>neck-band</code> folder that was just created.</p>
+            </div>
+          </div>
+          <div class="gs-step">
+            <div class="gs-num">4</div>
+            <div class="gs-body">
+              <h4>Open the Website</h4>
+              <p>In the VS Code file explorer on the left, click <strong>website</strong> → then double-click <strong>index.html</strong>. A preview will open, or you can right-click the file and choose <em>"Open with Live Server"</em> if you have the Live Server extension installed.</p>
+              <p>To install Live Server: press <code>Ctrl+Shift+X</code> → search <em>Live Server</em> → click Install.</p>
+            </div>
+          </div>
+          <div class="gs-step">
+            <div class="gs-num">5</div>
+            <div class="gs-body">
+              <h4>View in Browser</h4>
+              <p>Right-click <code>website/index.html</code> in VS Code → <em>Open with Live Server</em>. Your default browser will open with the website running at <code>http://127.0.0.1:5500/website/index.html</code>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB: APP ── -->
+      <div class="tab-content" id="tab-app">
+        <div class="steps-list">
+          <div class="gs-step">
+            <div class="gs-num">1</div>
+            <div class="gs-body">
+              <h4>Install Node.js</h4>
+              <p>Go to <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a> → click <strong>LTS (recommended)</strong> → download and run the installer. Accept all defaults and click <em>Next</em>.</p>
+              <p>Verify it installed: in VS Code terminal type <code>node -v</code> → should print a version like <code>v20.x.x</code>.</p>
+            </div>
+          </div>
+          <div class="gs-step">
+            <div class="gs-num">2</div>
+            <div class="gs-body">
+              <h4>Install Expo CLI</h4>
+              <p>In the VS Code terminal, run:</p>
+              <div class="code-block">
+                <pre>npm install -g expo-cli</pre>
+                <button class="copy-btn" data-copy="npm install -g expo-cli">Copy</button>
+              </div>
+            </div>
+          </div>
+          <div class="gs-step">
+            <div class="gs-num">3</div>
+            <div class="gs-body">
+              <h4>Navigate to the App Folder</h4>
+              <div class="code-block">
+                <pre>cd neck-band/CervicalSentinel</pre>
+                <button class="copy-btn" data-copy="cd neck-band/CervicalSentinel">Copy</button>
+              </div>
+            </div>
+          </div>
+          <div class="gs-step">
+            <div class="gs-num">4</div>
+            <div class="gs-body">
+              <h4>Install Dependencies</h4>
+              <div class="code-block">
+                <pre>npm install</pre>
+                <button class="copy-btn" data-copy="npm install">Copy</button>
+              </div>
+              <p>This downloads all the libraries the app needs. It may take 1–2 minutes.</p>
+            </div>
+          </div>
+          <div class="gs-step">
+            <div class="gs-num">5</div>
+            <div class="gs-body">
+              <h4>Start the App</h4>
+              <div class="code-block">
+                <pre>npx expo start</pre>
+                <button class="copy-btn" data-copy="npx expo start">Copy</button>
+              </div>
+              <p>A QR code will appear in the terminal.</p>
+            </div>
+          </div>
+          <div class="gs-step">
+            <div class="gs-num">6</div>
+            <div class="gs-body">
+              <h4>Open on Your Phone</h4>
+              <p>Install <strong>Expo Go</strong> from the App Store or Play Store on your phone. Open Expo Go → tap <em>Scan QR Code</em> → scan the QR code in your terminal. The app loads on your phone!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB: FIRMWARE ── -->
+      <div class="tab-content" id="tab-firmware">
+        <div class="steps-list">
+          <div class="gs-step">
+            <div class="gs-num">1</div>
+            <div class="gs-body">
+              <h4>Install Arduino IDE 2</h4>
+              <p>Go to <a href="https://www.arduino.cc/en/software" target="_blank" rel="noopener">arduino.cc/en/software</a> → download <strong>Arduino IDE 2.x</strong> for Windows → run the installer.</p>
+            </div>
+          </div>
+          <div class="gs-step">
+            <div class="gs-num">2</div>
+            <div class="gs-body">
+              <h4>Add ESP32 Board Package</h4>
+              <p>Open Arduino IDE → <strong>File → Preferences</strong> → paste this URL in the <em>Additional Board Manager URLs</em> box:</p>
+              <div class="code-block">
+                <pre>https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json</pre>
+                <button class="copy-btn" data-copy="https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json">Copy</button>
+              </div>
+              <p>Then: <strong>Tools → Board → Boards Manager</strong> → search <em>esp32</em> → Install <em>esp32 by Espressif</em>.</p>
+            </div>
+          </div>
+          <div class="gs-step">
+            <div class="gs-num">3</div>
+            <div class="gs-body">
+              <h4>Open the Firmware Sketch</h4>
+              <p>In Arduino IDE: <strong>File → Open</strong> → navigate to <code>neck-band/firmware/CervicalSentinel.ino</code> → click Open.</p>
+            </div>
+          </div>
+          <div class="gs-step">
+            <div class="gs-num">4</div>
+            <div class="gs-body">
+              <h4>Select Board &amp; Port</h4>
+              <p><strong>Tools → Board → ESP32 Arduino → ESP32 Dev Module</strong><br/>
+              <strong>Tools → Port</strong> → select the port that appeared when you plugged in the ESP32 (e.g. <code>COM3</code>).</p>
+            </div>
+          </div>
+          <div class="gs-step">
+            <div class="gs-num">5</div>
+            <div class="gs-body">
+              <h4>Upload</h4>
+              <p>Click the <strong>→ Upload</strong> button (or press <code>Ctrl+U</code>). Wait for <em>"Done uploading"</em>. Open <strong>Tools → Serial Monitor</strong> at 115200 baud to see live data.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB: DEPLOY ── -->
+      <div class="tab-content" id="tab-deploy">
+        <div class="steps-list">
+          <div class="gs-step">
+            <div class="gs-num">1</div>
+            <div class="gs-body">
+              <h4>Go to Your Repository on GitHub</h4>
+              <p>Open <a href="https://github.com/Tr2418/neck-band" target="_blank" rel="noopener">github.com/Tr2418/neck-band</a> in your browser.</p>
+            </div>
+          </div>
+          <div class="gs-step">
+            <div class="gs-num">2</div>
+            <div class="gs-body">
+              <h4>Open Repository Settings</h4>
+              <p>Click the <strong>Settings</strong> tab at the top of the repo page.</p>
+            </div>
+          </div>
+          <div class="gs-step">
+            <div class="gs-num">3</div>
+            <div class="gs-body">
+              <h4>Enable GitHub Pages</h4>
+              <p>Scroll down to the <strong>Pages</strong> section in the left sidebar → click it.</p>
+              <p>Under <em>Source</em>, select <strong>Deploy from a branch</strong> → Branch: <strong>main</strong> → Folder: <strong>/ (root)</strong> or set it to <strong>/website</strong> if that option appears → click <strong>Save</strong>.</p>
+            </div>
+          </div>
+          <div class="gs-step">
+            <div class="gs-num">4</div>
+            <div class="gs-body">
+              <h4>Wait ~1 Minute</h4>
+              <p>GitHub will build and deploy your site automatically. Refresh the Settings → Pages page and you'll see a green banner with your live URL:</p>
+              <div class="code-block">
+                <pre>https://tr2418.github.io/neck-band/website/</pre>
+                <button class="copy-btn" data-copy="https://tr2418.github.io/neck-band/website/">Copy</button>
+              </div>
+            </div>
+          </div>
+          <div class="gs-step">
+            <div class="gs-num">5</div>
+            <div class="gs-body">
+              <h4>Share Your Site 🎉</h4>
+              <p>Copy that URL and share it with anyone — they can view your CervicalSentinel website from any device without installing anything.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="brand-dot"></span>
+          CervicalSentinel
+          <p>AI-Powered Neck Muscle &amp; Posture Monitoring</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Project</h4>
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#hardware">Hardware</a>
+            <a href="#demo">Live Demo</a>
+          </div>
+          <div class="footer-col">
+            <h4>Code</h4>
+            <a href="https://github.com/Tr2418/neck-band" target="_blank" rel="noopener">GitHub Repository</a>
+            <a href="https://github.com/Tr2418/neck-band/tree/main/firmware" target="_blank" rel="noopener">ESP32 Firmware</a>
+            <a href="https://github.com/Tr2418/neck-band/tree/main/CervicalSentinel" target="_blank" rel="noopener">Mobile App</a>
+          </div>
+          <div class="footer-col">
+            <h4>Guide</h4>
+            <a href="#get-started">Open Website</a>
+            <a href="#get-started">Run Mobile App</a>
+            <a href="#get-started">Flash Firmware</a>
+            <a href="#get-started">Deploy to GitHub Pages</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 CervicalSentinel — Helping prevent chronic neck pain through early detection.</span>
+        <a href="https://github.com/Tr2418/neck-band" target="_blank" rel="noopener">View on GitHub ↗</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
