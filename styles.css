@@ -141,7 +141,7 @@ a {
   color: var(--muted);
 }
 
-.lux-button {
+.nb-button {
   position: relative;
   border: none;
   padding: 12px 22px;
@@ -156,25 +156,25 @@ a {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-.lux-button.primary {
+.nb-button.primary {
   background: linear-gradient(120deg, var(--primary), var(--secondary));
 }
 
-.lux-button.ghost {
+.nb-button.ghost {
   background: transparent;
   border: 1px solid var(--border);
 }
 
-.lux-button:hover {
+.nb-button:hover {
   transform: translateY(-2px) scale(1.02);
   box-shadow: 0 18px 40px rgba(168, 85, 247, 0.35);
 }
 
-.lux-button:active {
+.nb-button:active {
   transform: translateY(1px) scale(0.99);
 }
 
-.lux-button .ripple {
+.nb-button .ripple {
   position: absolute;
   border-radius: 50%;
   transform: scale(0);
